@@ -14,10 +14,19 @@ import javax.swing.JOptionPane;
  */
 public class ClickerOne_TelaAluno extends javax.swing.JFrame {
 
+    ClickerOne_Cliente cliente;
     /**
      * Creates new form ClickerOne_TelaAluno
      */
+    
     public ClickerOne_TelaAluno() {
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        initComponents();
+    }
+    
+    public ClickerOne_TelaAluno(ClickerOne_Cliente cliente) {
+        this.cliente = cliente;
+        this.setTitle("Aluno - " + cliente.get_Nome());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         initComponents();
     }
@@ -36,12 +45,14 @@ public class ClickerOne_TelaAluno extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItemAjudaClickerOne = new javax.swing.JMenuItem();
         jMenuItemSobre = new javax.swing.JMenuItem();
 
-        setTitle("Busca por aula");
+        setTitle("Aluno - " + cliente.get_Nome());
         setMaximumSize(new java.awt.Dimension(400, 200));
         setMinimumSize(new java.awt.Dimension(400, 200));
         setPreferredSize(new java.awt.Dimension(400, 200));
@@ -67,6 +78,17 @@ public class ClickerOne_TelaAluno extends javax.swing.JFrame {
         jMenu1.setMnemonic('A');
         jMenu1.setText("Arquivo");
         jMenu1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+
+        jMenuItem1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jMenuItem1.setMnemonic('A');
+        jMenuItem1.setText("Alterar usuário");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+        jMenu1.add(jSeparator1);
 
         jMenuItem3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jMenuItem3.setMnemonic('S');
@@ -128,11 +150,18 @@ public class ClickerOne_TelaAluno extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if(!jTextField1.getText().equals("")){
-            
+            ClickerOne_TelaRespostas resposta = new ClickerOne_TelaRespostas();
+            resposta.setVisible(true);
         }else{
-            JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "Erro", 2);
+            JOptionPane.showMessageDialog(this, "Preencha o campo de busca!", "Erro", 2);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        ClickerOne_CadastroUsuario alterar = new ClickerOne_CadastroUsuario(this.cliente);
+        alterar.setTitle("Atualizar");
+        alterar.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -175,9 +204,11 @@ public class ClickerOne_TelaAluno extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItemAjudaClickerOne;
     private javax.swing.JMenuItem jMenuItemSobre;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

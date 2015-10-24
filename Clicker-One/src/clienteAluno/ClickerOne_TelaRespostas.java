@@ -49,10 +49,10 @@ public class ClickerOne_TelaRespostas extends javax.swing.JFrame {
         jLabel1.setText("Questão:");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 25, -1, 25));
 
+        jTextAreaQuestao.setEditable(false);
         jTextAreaQuestao.setColumns(20);
         jTextAreaQuestao.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jTextAreaQuestao.setRows(5);
-        jTextAreaQuestao.setEnabled(false);
         jScrollPane1.setViewportView(jTextAreaQuestao);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 490, 120));
@@ -113,6 +113,7 @@ public class ClickerOne_TelaRespostas extends javax.swing.JFrame {
         getContentPane().add(jButtonAnterior, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, -1, 25));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jRadioButtonAlternativaAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonAlternativaAActionPerformed

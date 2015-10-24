@@ -5,8 +5,12 @@
  */
 package comum;
 
+import clienteAluno.*;
+import clienteProfessor.*;
 import java.awt.Color;
+import java.net.*;
 import javax.swing.JOptionPane;
+import server.ClickerOne_Server;
 
 /**
  *
@@ -14,10 +18,19 @@ import javax.swing.JOptionPane;
  */
 public class ClickerOne_Login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ClickerOne_Login
-     */
+    private Socket sockets;
+    private ClickerOne_Cliente cliente = new ClickerOne_Cliente();
+
     public ClickerOne_Login() {
+        try {
+            ClickerOne_Server server = new ClickerOne_Server();
+            Thread t1 = new Thread(server);
+            server.setConexao();
+            t1.start();
+            sockets = new Socket(InetAddress.getLocalHost().getHostAddress(), 5000);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Não foi possivel se conectar.");
+        }
         initComponents();
     }
 
@@ -102,9 +115,27 @@ public class ClickerOne_Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel3MousePressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(!jTextField1.getText().equals("") && !jPasswordField1.getText().equals("")){
-            
-        }else{
+        if (!jTextField1.getText().equals("") && !jPasswordField1.getText().equals("")) {
+            cliente = new ClickerOne_Cliente(jTextField1.getText(), jPasswordField1.getText());
+            if (cliente.VerificaLogin(cliente)) {
+                cliente = cliente.PerfilDoCliente(cliente);
+                if (cliente.get_estiloDeConta().equals("Aluno")) {
+                    ClickerOne_TelaAluno Tela = new ClickerOne_TelaAluno(cliente);
+                    this.dispose();
+                    Tela.setVisible(true);
+                } else {
+                    if (cliente.get_estiloDeConta().equals("Professor")) {
+                        ClickerOne_TelaProfessor Tela = new ClickerOne_TelaProfessor();
+                        this.dispose();
+                        Tela.setVisible(true);
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Ocorreu um erro!", "Erro", 2);
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuário e/ou senha errados", "Erro", 2);
+            }
+        } else {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "Erro", 2);
         }
     }//GEN-LAST:event_jButton1ActionPerformed

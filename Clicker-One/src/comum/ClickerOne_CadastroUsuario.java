@@ -5,6 +5,10 @@
  */
 package comum;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,6 +20,27 @@ public class ClickerOne_CadastroUsuario extends javax.swing.JFrame {
     /**
      * Creates new form ClickerOne_CadastroUsuario
      */
+    private ClickerOne_Cliente clientes = new ClickerOne_Cliente();
+
+    public ClickerOne_CadastroUsuario(ClickerOne_Cliente cliente) {
+        this.setTitle("Atualizar");
+        this.clientes = cliente;
+        initComponents();
+        jTextFieldNome.setText(clientes.get_Nome());
+        jTextFieldRA.setText(clientes.get_RA());
+        jTextFieldRA.setEditable(false);
+        jPasswordFieldSenha.setText("");
+        jPasswordFieldConfirmaSenha.setText("");
+        if (clientes.get_estiloDeConta().equals("Aluno")) {
+            jRadioButtonAluno.setSelected(true);
+        } else {
+            jRadioButtonProfessor.setSelected(true);
+        }
+        jRadioButtonAluno.setEnabled(false);
+        jRadioButtonProfessor.setEnabled(false);
+        jButtonCadastrar.setText("Concluir");
+    }
+
     public ClickerOne_CadastroUsuario() {
         initComponents();
     }
@@ -35,13 +60,14 @@ public class ClickerOne_CadastroUsuario extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jTextFieldNome = new javax.swing.JTextField();
         jTextFieldRA = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButtonLimpar = new javax.swing.JButton();
+        jButtonCadastrar = new javax.swing.JButton();
         jPasswordFieldSenha = new javax.swing.JPasswordField();
         jPasswordFieldConfirmaSenha = new javax.swing.JPasswordField();
         jRadioButtonProfessor = new javax.swing.JRadioButton();
         jRadioButtonAluno = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
+        jButtonVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de usuário");
@@ -72,25 +98,25 @@ public class ClickerOne_CadastroUsuario extends javax.swing.JFrame {
         jTextFieldRA.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         getContentPane().add(jTextFieldRA, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 105, 150, 25));
 
-        jButton1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jButton1.setMnemonic('L');
-        jButton1.setText("Limpar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonLimpar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jButtonLimpar.setMnemonic('L');
+        jButtonLimpar.setText("Limpar");
+        jButtonLimpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonLimparActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, -1, 25));
+        getContentPane().add(jButtonLimpar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, -1, 25));
 
-        jButton2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jButton2.setMnemonic('C');
-        jButton2.setText("Cadastrar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonCadastrar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jButtonCadastrar.setMnemonic('C');
+        jButtonCadastrar.setText("Cadastrar");
+        jButtonCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonCadastrarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 360, -1, 25));
+        getContentPane().add(jButtonCadastrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 360, -1, 25));
 
         jPasswordFieldSenha.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         getContentPane().add(jPasswordFieldSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 150, 25));
@@ -120,38 +146,89 @@ public class ClickerOne_CadastroUsuario extends javax.swing.JFrame {
         jLabel3.setText("Estilo de conta:");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, -1, 25));
 
+        jButtonVoltar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jButtonVoltar.setMnemonic('V');
+        jButtonVoltar.setText("Voltar");
+        jButtonVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVoltarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButtonVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 360, 70, 25));
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (JOptionPane.showConfirmDialog(null, "Deseja realmente limpar todos os campos?", "Confirmação", 1, 1) == JOptionPane.YES_OPTION) {
-            jTextFieldNome.setText("");
-            jTextFieldRA.setText("");
-            jPasswordFieldSenha.setText("");
-            jPasswordFieldConfirmaSenha.setText("");
-            jRadioButtonProfessor.setSelected(false);
-            jRadioButtonAluno.setSelected(false);
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void LimparCampos() {
+        jTextFieldNome.setText("");
+        jTextFieldRA.setText("");
+        jPasswordFieldSenha.setText("");
+        jPasswordFieldConfirmaSenha.setText("");
+        jRadioButtonProfessor.setSelected(false);
+        jRadioButtonAluno.setSelected(false);
+    }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(!jTextFieldNome.getText().equals("") && !jTextFieldRA.getText().equals("") && !jPasswordFieldSenha.getText().equals("") && !jPasswordFieldConfirmaSenha.getText().equals("") && (jRadioButtonAluno.isSelected() || jRadioButtonProfessor.isSelected())){
-            
-        }else{
+    private void jButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimparActionPerformed
+        if (JOptionPane.showConfirmDialog(null, "Deseja realmente limpar todos os campos?", "Confirmação", 1, 1) == JOptionPane.YES_OPTION) {
+            LimparCampos();
+        }
+    }//GEN-LAST:event_jButtonLimparActionPerformed
+
+    private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarActionPerformed
+        if (!jTextFieldNome.getText().equals("") && !jTextFieldRA.getText().equals("") && !jPasswordFieldSenha.getText().equals("") && !jPasswordFieldConfirmaSenha.getText().equals("") && (jRadioButtonAluno.isSelected() || jRadioButtonProfessor.isSelected())) {
+            if (jPasswordFieldConfirmaSenha.getText().equals(jPasswordFieldSenha.getText())) {
+                if (jButtonCadastrar.getText().equals("Cadastrar")) {
+                    if (!clientes.VerificaUsuario(jTextFieldRA.getText())) {
+                        if (jRadioButtonAluno.isSelected()) {
+                            clientes = new ClickerOne_Cliente(jTextFieldNome.getText(), jTextFieldRA.getText(), jPasswordFieldSenha.getText(), jRadioButtonAluno.getText());
+                        } else {
+                            clientes = new ClickerOne_Cliente(jTextFieldNome.getText(), jTextFieldRA.getText(), jPasswordFieldSenha.getText(), jRadioButtonProfessor.getText());
+                        }
+                        if (clientes.GravaUsuario(clientes)) {
+                            JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!", "Sucesso", 1);
+                            LimparCampos();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao cadastrar o usuário!", "Erro", 2);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Este RA já esta cadastrado!", "Erro", 2);
+                    }
+                } else {
+                    if (jRadioButtonAluno.isSelected()) {
+                        clientes = new ClickerOne_Cliente(jTextFieldNome.getText(), jTextFieldRA.getText(), jPasswordFieldSenha.getText(), jRadioButtonAluno.getText());
+                    } else {
+                        clientes = new ClickerOne_Cliente(jTextFieldNome.getText(), jTextFieldRA.getText(), jPasswordFieldSenha.getText(), jRadioButtonProfessor.getText());
+                    }
+                    if (clientes.UpdateUsuario(this.clientes)) {
+                        JOptionPane.showMessageDialog(this, "Usuário atualizado com sucesso!", "Sucesso", 1);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Ocorreu um erro ao atualizar o usuário!", "Erro", 2);
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "As senhas não são iguais!", "Erro", 2);
+            }
+        } else {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "Erro", 2);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButtonCadastrarActionPerformed
 
     private void jRadioButtonProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonProfessorActionPerformed
-        if(jRadioButtonProfessor.isSelected())
+        if (jRadioButtonProfessor.isSelected()) {
             jRadioButtonAluno.setSelected(false);
+        }
     }//GEN-LAST:event_jRadioButtonProfessorActionPerformed
 
     private void jRadioButtonAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonAlunoActionPerformed
-        if(jRadioButtonAluno.isSelected())
+        if (jRadioButtonAluno.isSelected()) {
             jRadioButtonProfessor.setSelected(false);
+        }
     }//GEN-LAST:event_jRadioButtonAlunoActionPerformed
+
+    private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButtonVoltarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -189,8 +266,9 @@ public class ClickerOne_CadastroUsuario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonCadastrar;
+    private javax.swing.JButton jButtonLimpar;
+    private javax.swing.JButton jButtonVoltar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
